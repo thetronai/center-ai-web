@@ -103,11 +103,7 @@ the palette's own accessible options allow), not a deliberate design
 choice, since nothing else in the file suggests this text is meant to be
 de-emphasized to the point of an accessibility failure.
 
-*(Annotated screenshot: grab a screenshot of the "GPU Service Status" or
-"Compute Service Status" card region showing this meta text line,
-highlight/circle it, and note the color + computed ratio — export/copy is
-disabled on the file, so this has to be captured manually rather than
-attached here.)*
+![Annotated screenshot showing the low-contrast meta text circled, with the computed contrast ratio and fix](./readme-assets/figma-correction-contrast.png)
 
 ## What I'd do differently with more time
 
