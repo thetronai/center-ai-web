@@ -40,7 +40,7 @@ export function StateScreen({
   secondaryAction,
 }: StateScreenProps) {
   return (
-    <div className="flex min-h-[60vh] items-center justify-center">
+    <div className="flex flex-1 items-center justify-center">
       <div className="flex w-full max-w-md flex-col items-center rounded-3xl border border-grey-200 bg-white p-10 text-center shadow-sm">
         <div
           className={`mb-5 flex h-16 w-16 items-center justify-center rounded-full ${ICON_TONES[tone]}`}
