@@ -24,10 +24,11 @@ interface StateScreenProps {
 }
 
 /**
- * Shared full-bleed template matching the confirmed "Global States" frames
- * (You're offline / Something went wrong): icon in a soft circle, bold
- * centered heading, grey body copy, optional bordered info box, then a
- * stacked primary (filled) + secondary (outline) button.
+ * Web treatment of the confirmed "Global States" frames (You're offline /
+ * Something went wrong): same icon-circle + heading + body + info box +
+ * button content, but presented as a bordered card centered in the page
+ * rather than the bare full-bleed mobile layout — a bare block with mobile
+ * spacing just floats, unstyled, in the middle of a wide desktop viewport.
  */
 export function StateScreen({
   icon: Icon,
@@ -39,22 +40,26 @@ export function StateScreen({
   secondaryAction,
 }: StateScreenProps) {
   return (
-    <div className="flex flex-col items-center px-6 py-16 text-center">
-      <div className={`mb-5 flex h-16 w-16 items-center justify-center rounded-full ${ICON_TONES[tone]}`}>
-        <Icon className="h-7 w-7" />
-      </div>
-      <h2 className="font-display text-lg font-bold text-grey-900">{heading}</h2>
-      <p className="mt-2 max-w-sm text-sm text-grey-600">{body}</p>
-
-      {infoBox && (
-        <div className="mt-4 w-full max-w-sm rounded-xl border border-grey-200 bg-white px-4 py-3 text-sm text-grey-600">
-          {infoBox}
+    <div className="flex min-h-[60vh] items-center justify-center">
+      <div className="flex w-full max-w-md flex-col items-center rounded-3xl border border-grey-200 bg-white p-10 text-center shadow-sm">
+        <div
+          className={`mb-5 flex h-16 w-16 items-center justify-center rounded-full ${ICON_TONES[tone]}`}
+        >
+          <Icon className="h-7 w-7" />
         </div>
-      )}
+        <h2 className="font-display text-lg font-bold text-grey-900">{heading}</h2>
+        <p className="mt-2 text-sm text-grey-600">{body}</p>
 
-      <div className="mt-6 flex w-full max-w-sm flex-col gap-3">
-        <ActionButton action={primaryAction} variant="primary" />
-        {secondaryAction && <ActionButton action={secondaryAction} variant="secondary" />}
+        {infoBox && (
+          <div className="mt-4 w-full rounded-xl border border-grey-200 bg-grey-50 px-4 py-3 text-sm text-grey-600">
+            {infoBox}
+          </div>
+        )}
+
+        <div className="mt-6 flex w-full flex-col gap-3">
+          <ActionButton action={primaryAction} variant="primary" />
+          {secondaryAction && <ActionButton action={secondaryAction} variant="secondary" />}
+        </div>
       </div>
     </div>
   );

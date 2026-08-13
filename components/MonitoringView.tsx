@@ -71,7 +71,7 @@ export function MonitoringView() {
       <main className="flex-1 bg-cream">
         <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
           {state.kind === "loading" && (
-            <div className="flex items-center justify-center gap-3 py-16 text-sm text-grey-500">
+            <div className="flex min-h-[60vh] items-center justify-center gap-3 text-sm text-grey-500">
               <span
                 className="h-4 w-4 animate-spin rounded-full border-2 border-grey-300 border-t-blue-500"
                 aria-hidden
