@@ -63,8 +63,10 @@ export function MonitoringView() {
   return (
     <div className="flex min-h-screen flex-col">
       <header className="border-b border-grey-200 bg-white px-4 py-4">
-        <div className="mx-auto max-w-6xl">
-          <h1 className="font-display text-lg font-bold text-grey-900">Monitoring</h1>
+        <div className="mx-auto flex max-w-6xl justify-center">
+          <h1 className="font-display text-[14px] font-semibold leading-[18.4px] text-grey-900">
+            Monitoring
+          </h1>
         </div>
       </header>
 
@@ -128,7 +130,7 @@ export function MonitoringView() {
                 if (services.length === 0) return null;
                 return (
                   <section key={lane}>
-                    <h2 className="mb-3 text-xs font-semibold uppercase tracking-wide text-grey-500">
+                    <h2 className="mb-3 text-xs font-medium uppercase leading-[140%] text-grey-500">
                       {LANE_LABELS[lane]}
                     </h2>
                     <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
@@ -138,7 +140,7 @@ export function MonitoringView() {
                           className="flex flex-col gap-3 rounded-2xl border border-grey-200 bg-white p-4"
                         >
                           <div className="flex flex-wrap items-center gap-2">
-                            <span className="font-display text-sm font-bold text-grey-900">
+                            <span className="font-display text-sm font-semibold leading-[120%] text-blue-900">
                               {service.name}
                             </span>
                             <StatusBadge status={service.status} />
@@ -151,7 +153,7 @@ export function MonitoringView() {
                 );
               })}
 
-              <p className="pt-2 text-xs text-grey-500">
+              <p className="pt-2 text-xs leading-[120%] text-meta">
                 Status reflects the most recently reported data. Data may be delayed and does not
                 guarantee uptime.
               </p>

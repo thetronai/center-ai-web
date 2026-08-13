@@ -48,10 +48,10 @@ export function StateScreen({
           <Icon className="h-7 w-7" />
         </div>
         <h2 className="font-display text-lg font-bold text-grey-900">{heading}</h2>
-        <p className="mt-2 text-sm text-grey-600">{body}</p>
+        <p className="mt-2 text-sm leading-[120%] text-meta">{body}</p>
 
         {infoBox && (
-          <div className="mt-4 w-full rounded-xl border border-grey-200 bg-grey-50 px-4 py-3 text-sm text-grey-600">
+          <div className="mt-4 w-full rounded-xl border border-grey-200 bg-grey-50 px-4 py-3 text-sm leading-[120%] text-meta">
             {infoBox}
           </div>
         )}

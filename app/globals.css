@@ -30,6 +30,12 @@
   /* Approximated from the rendered Global States / Monitoring frames — the
      exact hex wasn't obtainable since export/copy is disabled on the file. */
   --color-cream: #f6f5f0;
+
+  /* Confirmed from Figma dev-mode inspection: meta/secondary text color,
+     and the Active/Operational badge's exact bg + border pair. */
+  --color-meta: #7a8299;
+  --color-badge-success-bg: #edf7f2;
+  --color-badge-success-border: #c2e5d1;
 }
 
 body {
