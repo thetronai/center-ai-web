@@ -30,12 +30,15 @@ interface FetchResult {
 interface UseSystemStatusResult {
   state: MonitoringState;
   retry: () => void;
+  /** Set the moment we last got a real (non-forced-loading) response from the server. */
+  lastFetchedAt: Date | null;
 }
 
 export function useSystemStatus(scenario: Scenario): UseSystemStatusResult {
   const [browserOnline, setBrowserOnline] = useState(true);
   const [reloadKey, setReloadKey] = useState(0);
   const [result, setResult] = useState<FetchResult | null>(null);
+  const [lastFetchedAt, setLastFetchedAt] = useState<Date | null>(null);
 
   useEffect(() => {
     const update = () => setBrowserOnline(navigator.onLine);
@@ -98,6 +101,7 @@ export function useSystemStatus(scenario: Scenario): UseSystemStatusResult {
           requestKey,
           outcome: data.length === 0 ? { kind: "empty" } : { kind: "success", data },
         });
+        setLastFetchedAt(new Date());
       })
       .catch(() => {
         // Fetch rejected while the browser reports itself online — a real
@@ -127,5 +131,5 @@ export function useSystemStatus(scenario: Scenario): UseSystemStatusResult {
       ? result.outcome
       : { kind: "loading" };
 
-  return { state, retry };
+  return { state, retry, lastFetchedAt };
 }
