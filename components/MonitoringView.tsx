@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useSystemStatus, type Scenario } from "@/hooks/useSystemStatus";
 import { StatusBadge } from "@/components/StatusBadge";
@@ -15,17 +14,17 @@ const LANE_LABELS: Record<Lane, string> = {
   shared: "Shared service status",
 };
 
-const SCENARIOS: { value: Scenario; label: string }[] = [
-  { value: "live", label: "Live" },
-  { value: "loading", label: "Loading" },
-  { value: "empty", label: "Empty" },
-  { value: "error", label: "Error" },
-  { value: "rate-limit", label: "Rate limited" },
-  { value: "offline", label: "Offline" },
+const SCENARIOS: readonly Scenario[] = [
+  "live",
+  "loading",
+  "empty",
+  "error",
+  "rate-limit",
+  "offline",
 ];
 
 function isScenario(value: string | null): value is Scenario {
-  return SCENARIOS.some((s) => s.value === value);
+  return (SCENARIOS as readonly string[]).includes(value ?? "");
 }
 
 function groupByLane(data: SystemService[]): Record<Lane, SystemService[]> {
@@ -37,15 +36,24 @@ function groupByLane(data: SystemService[]): Record<Lane, SystemService[]> {
 }
 
 function formatTimestamp(date: Date): string {
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  }).format(date) +
+  return (
+    new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(
+      date
+    ) +
     " · " +
-    new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit" }).format(date);
+    new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit" }).format(date)
+  );
 }
 
+/**
+ * The Monitoring screen — the single screen in scope for this trial.
+ *
+ * `?scenario=` isn't part of the design; it's a QA hook so every required
+ * state (loading/empty/error/rate-limit/offline, in addition to the live
+ * happy path) can be reached on demand. See README "How to force each
+ * state" — there's no on-screen control for it, to keep the actual screen
+ * matching the design.
+ */
 export function MonitoringView() {
   const searchParams = useSearchParams();
   const raw = searchParams.get("scenario");
@@ -54,41 +62,14 @@ export function MonitoringView() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      {/* Demo controls — not part of the design, lets every required state be reached on demand. */}
-      <div className="border-b border-grey-200 bg-grey-900 px-4 py-2">
-        <div className="mx-auto flex max-w-3xl flex-wrap items-center gap-2">
-          <span className="text-[11px] font-semibold uppercase tracking-wide text-grey-400">
-            Demo: force state
-          </span>
-          <nav className="flex flex-wrap gap-1.5" aria-label="Demo state switcher">
-            {SCENARIOS.map((s) => (
-              <Link
-                key={s.value}
-                href={`/monitoring?scenario=${s.value}`}
-                className={`rounded-full px-2.5 py-0.5 text-[11px] font-medium transition-colors ${
-                  scenario === s.value
-                    ? "bg-blue-500 text-white"
-                    : "bg-grey-800 text-grey-300 hover:bg-grey-700"
-                }`}
-              >
-                {s.label}
-              </Link>
-            ))}
-          </nav>
-        </div>
-      </div>
-
       <header className="border-b border-grey-200 bg-white px-4 py-4">
-        <div className="mx-auto flex max-w-3xl items-center gap-3">
-          <Link href="/" aria-label="Back" className="text-grey-500 hover:text-grey-900">
-            ←
-          </Link>
+        <div className="mx-auto max-w-6xl">
           <h1 className="font-display text-lg font-bold text-grey-900">Monitoring</h1>
         </div>
       </header>
 
       <main className="flex-1 bg-cream">
-        <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6">
+        <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
           {state.kind === "loading" && (
             <div className="flex items-center justify-center gap-3 py-16 text-sm text-grey-500">
               <span
@@ -111,7 +92,6 @@ export function MonitoringView() {
                   : undefined
               }
               primaryAction={{ label: "Try Again", onClick: retry }}
-              secondaryAction={{ label: "Back to Home", href: "/" }}
             />
           )}
 
@@ -128,7 +108,6 @@ export function MonitoringView() {
                 </>
               }
               primaryAction={{ label: "Try again", onClick: retry }}
-              secondaryAction={{ label: "Back", href: "/" }}
             />
           )}
 
@@ -152,13 +131,13 @@ export function MonitoringView() {
                     <h2 className="mb-3 text-xs font-semibold uppercase tracking-wide text-grey-500">
                       {LANE_LABELS[lane]}
                     </h2>
-                    <ul className="space-y-3">
+                    <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
                       {services.map((service) => (
                         <li
                           key={service.name}
-                          className="flex flex-col gap-3 rounded-2xl border border-grey-200 bg-white p-4 sm:flex-row sm:items-center sm:justify-between"
+                          className="flex flex-col gap-3 rounded-2xl border border-grey-200 bg-white p-4"
                         >
-                          <div className="flex items-center gap-3">
+                          <div className="flex flex-wrap items-center gap-2">
                             <span className="font-display text-sm font-bold text-grey-900">
                               {service.name}
                             </span>
